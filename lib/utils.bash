@@ -64,16 +64,7 @@ download_release() {
 	filename="$2"
 	local -r platform="$(get_platform)"
 	local -r arch="$(get_arch)"
-	# kube-bench_0.7.3_linux_amd64.tar.gz 
-	# kube-bench_0.7.3_linux_arm64.tar.gz 
-	# kube-bench_0.7.3_linux_armv6.tar.gz
-	# kube-bench_0.7.3_linux_armv7.tar.gz
-	# kube-bench_0.7.3_darwin_arm64.tar.gz 
-	# kube-bench_0.7.3_darwin_amd64.tar.gz 
-	# https://github.com/aquasecurity/kube-bench/releases/download/v0.7.3/kube-bench_0.7.3_linux_amd64.tar.gz
-	# https://github.com/aquasecurity/kube-bench/releases/download/v0.7.3/kube-bench_0.7.3_linux_armv7.tar.gz
 
-	# TODO: Adapt the release URL convention for kube-bench
 	url="$GH_REPO/releases/download/v${version}/kube-bench_${version}_${platform}_${arch}.tar.gz"
 	echo "* URL: ${url}"
 
@@ -94,12 +85,9 @@ install_version() {
 		mkdir -p "$install_path"
 		cp -r "$ASDF_DOWNLOAD_PATH"/* "$install_path"
 
-		echo "getting directory of install path"
-		ls -alh "$install_path"
-		# TODO: Assert kube-bench executable exists.
 		local tool_cmd
 		tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
-		echo "tool command: $tool_cmd"
+
 		test -x "$install_path/$tool_cmd" || fail "Expected $install_path/$tool_cmd to be executable."
 
 		echo "$TOOL_NAME $version installation was successful!"

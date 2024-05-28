@@ -10,11 +10,12 @@ jobs:
   plugin_test:
     name: asdf plugin test
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         os:
           - ubuntu-latest
-          #- macos-latest
+          - macos-12 # Intel
+          - macos-latest # Arm
     runs-on: ${{ matrix.os }}
     steps:
       - name: asdf_plugin_test
