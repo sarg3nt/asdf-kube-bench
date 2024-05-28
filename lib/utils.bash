@@ -70,10 +70,11 @@ download_release() {
 	# kube-bench_0.7.3_linux_armv7.tar.gz
 	# kube-bench_0.7.3_darwin_arm64.tar.gz 
 	# kube-bench_0.7.3_darwin_amd64.tar.gz 
+	# https://github.com/aquasecurity/kube-bench/releases/download/v0.7.3/kube-bench_0.7.3_linux_amd64.tar.gz
 	# https://github.com/aquasecurity/kube-bench/releases/download/v0.7.3/kube-bench_0.7.3_linux_armv7.tar.gz
 
 	# TODO: Adapt the release URL convention for kube-bench
-	url="$GH_REPO/releases/download/v${version}kube-bench_${version}_${platform}_${arch}.tar.gz"
+	url="$GH_REPO/releases/download/v${version}/kube-bench_${version}_${platform}_${arch}.tar.gz"
 	echo "* URL: ${url}"
 
 	echo "* Downloading $TOOL_NAME release $version..."
