@@ -36,15 +36,6 @@ list_all_versions() {
 	list_github_tags
 }
 
-get_platform() {
-	local -r kernel="$(uname -s)"
-	if [[ ${kernel} == "Darwin" ]]; then
-		echo macos
-	else
-		uname | tr '[:upper:]' '[:lower:]'
-	fi
-}
-
 get_arch() {
 	local -r machine="$(uname -m)"
 	if [[ ${machine} == "arm64" ]] || [[ ${machine} == "aarch64" ]]; then
@@ -62,7 +53,7 @@ download_release() {
 	local version filename url
 	version="$1"
 	filename="$2"
-	local -r platform="$(get_platform)"
+	local -r platform="$(uname | tr '[:upper:]' '[:lower:]')"
 	local -r arch="$(get_arch)"
 
 	url="$GH_REPO/releases/download/v${version}/kube-bench_${version}_${platform}_${arch}.tar.gz"
