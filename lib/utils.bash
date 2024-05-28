@@ -36,13 +36,45 @@ list_all_versions() {
 	list_github_tags
 }
 
+get_platform() {
+	local -r kernel="$(uname -s)"
+	if [[ ${kernel} == "Darwin" ]]; then
+		echo macos
+	else
+		uname | tr '[:upper:]' '[:lower:]'
+	fi
+}
+
+get_arch() {
+	local -r machine="$(uname -m)"
+	if [[ ${machine} == "arm64" ]] || [[ ${machine} == "aarch64" ]]; then
+		echo "arm64"
+	elif [[ ${machine} == "arm" ]]; then
+		echo "armv7"
+	elif [[ ${machine} == *"armv"* ]] || [[ ${machine} == *"aarch"* ]]; then
+		echo "arm6"
+	else
+		echo "amd64"
+	fi
+}
+
 download_release() {
 	local version filename url
 	version="$1"
 	filename="$2"
+	local -r platform="$(get_platform)"
+	local -r arch="$(get_arch)"
+	# kube-bench_0.7.3_linux_amd64.tar.gz 
+	# kube-bench_0.7.3_linux_arm64.tar.gz 
+	# kube-bench_0.7.3_linux_armv6.tar.gz
+	# kube-bench_0.7.3_linux_armv7.tar.gz
+	# kube-bench_0.7.3_darwin_arm64.tar.gz 
+	# kube-bench_0.7.3_darwin_amd64.tar.gz 
+	# https://github.com/aquasecurity/kube-bench/releases/download/v0.7.3/kube-bench_0.7.3_linux_armv7.tar.gz
 
 	# TODO: Adapt the release URL convention for kube-bench
-	url="$GH_REPO/archive/v${version}.tar.gz"
+	url="$GH_REPO/releases/download/v${version}kube-bench_${version}_${platform}_${arch}.tar.gz"
+	echo "* URL: ${url}"
 
 	echo "* Downloading $TOOL_NAME release $version..."
 	curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
