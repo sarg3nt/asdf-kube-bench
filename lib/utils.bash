@@ -2,7 +2,6 @@
 
 set -euo pipefail
 
-# TODO: Ensure this is the correct GitHub homepage where releases can be downloaded for kube-bench.
 GH_REPO="https://github.com/aquasecurity/kube-bench"
 TOOL_NAME="kube-bench"
 TOOL_TEST="kube-bench version"
@@ -31,8 +30,6 @@ list_github_tags() {
 }
 
 list_all_versions() {
-	# TODO: Adapt this. By default we simply list the tag names from GitHub releases.
-	# Change this function if kube-bench has other means of determining installable versions.
 	list_github_tags
 }
 
@@ -70,8 +67,8 @@ install_version() {
 
 	if [ "$install_type" != "version" ]; then
 		fail "asdf-$TOOL_NAME supports release installs only"
-	fi
 
+	fi
 	(
 		mkdir -p "$install_path"
 		cp -r "$ASDF_DOWNLOAD_PATH"/* "$install_path"
